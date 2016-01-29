@@ -15,7 +15,7 @@ def show_img(img):
 
 def oneImFile(loc):
     size=(256,256)
-    im=resize(rgb2grey(imread(loc)),size)
+    im=resize(rgb2grey(imread(loc),size))
     print type(im),im.shape,im[0][1]
     show_img(im)
     
