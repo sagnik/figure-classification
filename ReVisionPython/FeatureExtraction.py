@@ -5,6 +5,8 @@ import sys
 import numpy as np
 from matplotlib import pyplot as plt
 import pylab 
+import random
+from scipy import ndimage
 
 def show_img(img):
      width = img.shape[1]/75.0
@@ -13,11 +15,46 @@ def show_img(img):
      plt.imshow(img)
      pylab.show()
 
+def randomPatchExtraction(img):
+    points=range(125*125)
+    random.shuffle(points)
+    
+    PS=6 #patch size
+    VR = 0.1 #variance ratio 
+    '''
+    To filter out frequently occurring constant color regions,
+    we reject sample patches with variance less than 10%
+    of the maximum pixel value. 	
+    '''
+
+    patchlocs=[img[x/125:x/125+PS,x%125:x%125+PS] for x in points[0:400] \
+    if ndimage.variance(img[x/125:x/125+PS,x%125:x%125+PS]) > VR*ndimage.variance(img)]
+    
+    random.shuffle(patchlocs)
+    if len(patchlocs)<=100:
+        return patchlocs
+    else:
+        return patchlocs[0:100] 
+
+
+def standardizePatch(im):
+    s1=[(x-ndimage.mean(im))/ndimage.variance(im) for x in im]
+    return  np.reshape(np.asarray([item for x in s1 for item in x]),(im.shape[0],im.shape[1]))     
+	    
 def oneImFile(loc):
-    size=(256,256)
-    im=resize(rgb2grey(imread(loc)),size)
-    print type(im),im.shape,im[0][1]
-    show_img(im)
+    size=(128,128)
+    im=(resize(rgb2grey(imread(loc)),size)*255) #resize
+    #random patch extraction
+    rp=randomPatchExtraction(im)
+    #patch standardization
+    rps=[standardizePatch(x) for x in rp]
+    
+
+    #print rps[0].shape
+    #show_img(rcps[0])
+    #print rcps[0]
+    #print type(im),im.shape,im[5][1]
+    #show_img(im)
     
 
 def main():
