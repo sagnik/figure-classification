@@ -42,13 +42,27 @@ def standardizePatch(im):
     s1=[(x-ndimage.mean(im))/ndimage.variance(im) for x in im]
     return  np.reshape(np.asarray([item for x in s1 for item in x]),(im.shape[0],im.shape[1]))     
 
-
-def zca_whitening(inputs): #http://stackoverflow.com/questions/31528800/how-to-implement-zca-whitening-python
-    sigma = np.dot(inputs, inputs.T)/inputs.shape[1] #Correlation matrix
+'''
+http://stats.stackexchange.com/questions/117427/what-is-the-difference-between-zca-whitening-and-pca-whitening
+original data matrix X= n x d
+mean centered data matrix = subtract mean from each element in X
+covariance matrix C for mean centered data matrix = X*X.T / n 
+SVD(C) =E*D*E.T, wheree E contains eigen vectors and D contains eigen values of C.
+  
+'''
+def zca_whitening(inputs): 
+    #note input is already mean centered.
+    sigma = np.dot(inputs,inputs.T)/inputs.shape[0] #Correlation matrix
     U,S,V = np.linalg.svd(sigma) #Singular Value Decomposition
     epsilon = 0.1                #Whitening constant, it prevents division by zero
-    ZCAMatrix = np.dot(np.dot(U, np.diag(1.0/np.sqrt(np.diag(S) + epsilon))), U.T) #ZCA Whitening matrix
-    print ZCAMatrix.shape,inputs.shape
+    '''
+    see http://stackoverflow.com/questions/31528800/how-to-implement-zca-whitening-python . This code has np.diag(S),
+    which should actually be np.diag(np.diag(s)). See the last example in 
+    http://docs.scipy.org/doc/numpy-1.10.1/reference/generated/numpy.diag.html 
+    
+    ZCAMatrix = np.dot(np.dot(U, np.diag(1.0/np.sqrt(np.diag(S) + epsilon))), U.T) 
+    '''
+    ZCAMatrix=1/(np.sqrt(sigma + epsilon)) #ZCA Whitening matrix, 
     return np.dot(ZCAMatrix, inputs)   #Data whitening	    
 
 def flatten_matrix(matrix):
@@ -65,17 +79,9 @@ def oneImFile(loc):
     rps=[list(flatten_matrix(standardizePatch(x))[0]) for x in rp]
     rpsl=[item for sublist in rps for item in sublist]
     rpsa=np.reshape(rpsl,(len(rps),PS*PS))
-    print rpsa.shape
+    print "rpsa",rpsa.shape
     rpsz=zca_whitening(rpsa)
-    print type(rpsz),rpsz.shape  		
-    '''
-    #print rps[0].shape
-    #show_img(rcps[0])
-    #print rcps[0]
-    #print type(im),im.shape,im[5][1]
-    #show_img(im)
-    '''
-
+    
 def main():
     loc=sys.argv[1]
     oneImFile(loc)
