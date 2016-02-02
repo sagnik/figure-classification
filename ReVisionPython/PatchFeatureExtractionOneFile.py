@@ -69,7 +69,7 @@ def flatten_matrix(matrix):
     vector = vector.reshape(1, len(vector))
     return vector
 
-def oneImFile(loc):
+def featExtractionOneImFile(loc):
     size=(128,128)
     im=(resize(rgb2grey(imread(loc)),size)*255) #resize
     #random patch extraction
@@ -78,12 +78,12 @@ def oneImFile(loc):
     rps=[list(flatten_matrix(standardizePatch(x))[0]) for x in rp]
     rpsl=[item for sublist in rps for item in sublist]
     rpsa=np.reshape(rpsl,(len(rps),PS*PS))
-    print "rpsa",rpsa.shape
     rpsz=zca_whitening(rpsa)
-    
+    return rpsz
+
 def main():
     loc=sys.argv[1]
-    oneImFile(loc)
+    featExtractionOneImFile(loc)
     
 
 if __name__ == "__main__":
