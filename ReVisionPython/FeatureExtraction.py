@@ -48,7 +48,6 @@ original data matrix X= n x d
 mean centered data matrix = subtract mean from each element in X
 covariance matrix C for mean centered data matrix = X*X.T / n 
 SVD(C) =E*D*E.T, wheree E contains eigen vectors and D contains eigen values of C.
-  
 '''
 def zca_whitening(inputs): 
     #note input is already mean centered.
