@@ -1,0 +1,27 @@
+import pickle
+datal=pickle.load(open("imdatawithlabels.nparray.pickle"))
+
+import numpy as np
+np.random.shuffle(datal)
+data=datal[:,:-1]
+label=datal[:,-1]
+
+from sklearn.cross_validation import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=0.33, random_state=42)
+
+from sklearn.svm import LinearSVC
+from sklearn.multiclass import OneVsRestClassifier
+y_pred=OneVsRestClassifier(LinearSVC(random_state=0)).fit(X_train, y_train).predict(X_test)
+y_true=y_test
+
+from sklearn.metrics import accuracy_score
+accuracy_score(y_true, y_pred)
+from sklearn.metrics import confusion_matrix
+confusion_matrix(y_true, y_pred)
+
+#accuracy is 58% only.
+
+array([[ 38,  28, 159],
+       [  1, 162,  45],
+       [  8,  29, 176]])
+
