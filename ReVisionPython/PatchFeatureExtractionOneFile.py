@@ -39,7 +39,7 @@ def randomPatchExtraction(img):
 
 
 def standardizePatch(im):
-    s1=[(x-ndimage.mean(im))/ndimage.variance(im) for x in im]
+    s1=[(x-ndimage.mean(im))/(ndimage.variance(im)+0.01) for x in im]
     return  np.reshape(np.asarray([item for x in s1 for item in x]),(im.shape[0],im.shape[1]))     
 
 '''
@@ -69,7 +69,7 @@ def flatten_matrix(matrix):
     vector = vector.reshape(1, len(vector))
     return vector
 
-def featExtractionOneImFile(loc):
+def patchFeatExtractionOneImFile(loc):
     size=(128,128)
     im=(resize(rgb2grey(imread(loc)),size)*255) #resize
     #random patch extraction

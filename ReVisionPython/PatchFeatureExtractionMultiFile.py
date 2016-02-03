@@ -21,7 +21,7 @@ def main():
     
     for index,f in enumerate(imFiles):
         print "processing: ",index+1,"out of",len(imFiles),f
-        a=np.vstack((a,featExtractionOneImFile(f)))
+        a=np.vstack((a,patchFeatExtractionOneImFile(f)))
     
     data=a[1:,:]
     
