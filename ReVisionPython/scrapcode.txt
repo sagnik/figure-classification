@@ -16,7 +16,7 @@ y_true=y_test
 
 from sklearn.metrics import accuracy_score
 accuracy_score(y_true, y_pred)
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import quit()
 confusion_matrix(y_true, y_pred)
 
 #accuracy is 58% only.

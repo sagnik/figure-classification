@@ -1,6 +1,6 @@
 import sys,os
 import numpy as np
-from FeatureExtractionOneFile import featureExtractOneFile
+from FeatureExtractionOneFile import featureExtractOneFileUnit
 import pickle
 
 def main():
@@ -9,9 +9,9 @@ def main():
     barIms=[baseDir+"bars/"+x for x in os.listdir(baseDir+"bars") if x.endswith(".png")]
     otherIms=[baseDir+"others/"+x for x in os.listdir(baseDir+"others") if x.endswith(".png")]
     
-    patchClusterLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/patch-clustered.nparray.pickle"
+    patchClusterLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"
     classificationDataLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/\
-    imdatawithlabels-allpixels.nparray.pickle" 
+    imdatawithlabels-allpixels-fast.nparray.pickle" 
     clusterData=pickle.load(open(patchClusterLoc))
     
     #initialize
@@ -19,7 +19,7 @@ def main():
 
     for i,im in enumerate(lineIms+barIms+otherIms):
         print "processing",i+1,"of",len(lineIms)+len(barIms)+len(otherIms),im
-        feat=featureExtractOneFile(im,clusterData,doRandom=False)
+        feat=featureExtractOneFileUnit(im,clusterData)
         a=np.vstack((a,feat.reshape(1,800)))   
     
     labels=np.array([0]*len(lineIms)+[1]*len(barIms)+[2]*len(otherIms)).reshape((len(lineIms)+len(barIms)+len(otherIms),1))

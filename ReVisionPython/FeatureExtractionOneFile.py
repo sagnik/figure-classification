@@ -10,11 +10,17 @@ from scipy import spatial
 from datetime import datetime
 import random
 import os
+from scipy import ndimage
 
 PS=6
+VR = 0.1
 
 def extractPatch(img):
     return [img[x/125:x/125+PS,x%125:x%125+PS] for x in range((img.shape[0]-PS/2)*(img.shape[1]-PS/2))] 
+
+def extractPatch1(img):
+    return filter(lambda y: y.shape[0]*y.shape[1]==PS*PS, [img[x/64:x/64+PS,x%64:x%64+PS] for x in range(64*64) \
+    if ndimage.variance(img[x/64:x/64+PS,x%64:x%64+PS]) > VR*ndimage.variance(img)])
 
 def nearestOneHot(patch,cData):
     d,i=spatial.KDTree(cData).query(patch.reshape((1,PS*PS)))
@@ -22,7 +28,34 @@ def nearestOneHot(patch,cData):
     a[i]=1
     return a
     
+def standardizePatch(im):
+    s1=[(x-ndimage.mean(im))/(ndimage.variance(im)+0.01) for x in im]
+    return  np.reshape(np.asarray([item for x in s1 for item in x]),(im.shape[0],im.shape[1]))     
+
+def get2DMatrix(patchList):
+    a=np.zeros(36).reshape((1,36))
+    for p in patchList:
+        a=np.vstack((a,flatten_matrix(p)))
+    return a[1:,:]
+
+def patchResponseMap(quadrant,clusterData):
+    return np.sum(np.dot(quadrant,clusterData.T),axis=0).reshape(1,200) 
+
+def featureExtractOneFileUnit(loc,clusterData):
+    size=(128,128)
+    im=(resize(rgb2grey(imread(loc)),size)*255) #resize
+
+    rpq1=patchResponseMap(get2DMatrix(extractPatch1(im[0:64,0:64])),clusterData)
+    rpq2=patchResponseMap(get2DMatrix(extractPatch1(im[64:,0:64])),clusterData)
+    rpq3=patchResponseMap(get2DMatrix(extractPatch1(im[64:,64:])),clusterData)
+    rpq4=patchResponseMap(get2DMatrix(extractPatch1(im[0:64,64:])),clusterData)
+
+    #print "patch extraction done",rpq1.shape,rpq2.shape,rpq3.shape,rpq4.shape
+    	
+
+    return np.hstack((rpq1,rpq2,rpq3,rpq4))            
       
+'''
 def featureExtractOneFile(loc,clusterData,doRandom=True,randomPixno=1000):
     size=(128,128)
     im=(resize(rgb2grey(imread(loc)),size)*255) #resize
@@ -64,18 +97,19 @@ def featureExtractOneFile(loc,clusterData,doRandom=True,randomPixno=1000):
     
     #pprint(patchDict)      
     return np.hstack((patchDict[1],patchDict[2],patchDict[3],patchDict[4]))            
+'''
     
 def main():
     imageLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/lines/10.1.1.182.1505-Figure-10.png"
     if len(sys.argv)==2:
         imageLoc=sys.argv[1]
-    patchClusterLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/patch-clustered.nparray.pickle"  
+    patchClusterLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"  
     
     #feat=featureExtractOneFile(imageLoc,patchClusterLoc)
     clusterData=pickle.load(open(patchClusterLoc)) 
     print "cluster data loaded"
     startTime = datetime.now()
-    feat=featureExtractOneFile(imageLoc,clusterData,True)
+    feat=featureExtractOneFileUnit(imageLoc,clusterData)
 
     print datetime.now() - startTime
     print feat.shape

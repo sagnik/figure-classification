@@ -78,8 +78,8 @@ def patchFeatExtractionOneImFile(loc):
     rps=[list(flatten_matrix(standardizePatch(x))[0]) for x in rp]
     rpsl=[item for sublist in rps for item in sublist]
     rpsa=np.reshape(rpsl,(len(rps),PS*PS))
-    rpsz=zca_whitening(rpsa)
-    return rpsz
+    #rpsz=zca_whitening(rpsa)
+    return rpsa
 
 def main():
     loc=sys.argv[1]
