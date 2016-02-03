@@ -6,15 +6,15 @@ import numpy as np
 def main():
    
     #default locations
-    patchImDir="/home/sagnik/codes/figure-classification/data-for-fig-classification/patchimages/"
-    pickleLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/nonzcapatch-unclustered.nparray.pickle"
+    patchImDir="../data-for-fig-classification/patchimages/"
+    pickleLoc="../data-for-fig-classification/nonzcapatch-unclustered.nparray.pickle"
 
     if len(sys.argv)==3:
         patchImDir=sys.argv[1]
         pickleLoc=sys.argv[2]
     elif len(sys.argv)==2:
         patchImDir=sys.argv[1]
-        pickleLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/nonzcapatch-unclustered.nparray.pickle"
+        pickleLoc="../data-for-fig-classification/nonzcapatch-unclustered.nparray.pickle"
   
     imFiles=[patchImDir+x for x in os.listdir(patchImDir) if x.endswith("png")]
     a=np.zeros(36).reshape((1,36))

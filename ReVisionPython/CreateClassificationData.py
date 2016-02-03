@@ -2,16 +2,26 @@ import sys,os
 import numpy as np
 from FeatureExtractionOneFile import featureExtractOneFileUnit
 import pickle
+import random
 
 def main():
-    baseDir="/home/sagnik/codes/figure-classification/data-for-fig-classification/"
+    baseDir="../data-for-fig-classification/"
+    
     lineIms=[baseDir+"lines/"+x for x in os.listdir(baseDir+"lines") if x.endswith(".png")]
     barIms=[baseDir+"bars/"+x for x in os.listdir(baseDir+"bars") if x.endswith(".png")]
     otherIms=[baseDir+"others/"+x for x in os.listdir(baseDir+"others") if x.endswith(".png")]
     
-    patchClusterLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"
-    classificationDataLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/\
-    imdatawithlabels-allpixels-fast.nparray.pickle" 
+    #for small experiments, should be commented out for the final experiments
+    random.shuffle(lineIms)
+    random.shuffle(barIms)
+    random.shuffle(otherIms)
+    
+    lineIms=lineIms[0:200]
+    barIms=barIms[0:200]
+    otherIms=otherIms[0:200]
+ 
+    patchClusterLoc="../data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"
+    classificationDataLoc="../data-for-fig-classification/imdatawithlabels-allpixels-fast.nparray.pickle" 
     clusterData=pickle.load(open(patchClusterLoc))
     
     #initialize
@@ -27,6 +37,7 @@ def main():
     data=np.hstack((a[1:,:],labels))
 
     pickle.dump(data,open(classificationDataLoc,"wb"))
+    
 
 if __name__=="__main__":
     main() 

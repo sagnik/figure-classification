@@ -1,5 +1,6 @@
 import pickle
 datal=pickle.load(open("imdatawithlabels.nparray.pickle"))
+datal=pickle.load(open("imdatawithlabels-allpixels-fast.nparray.pickle"))
 
 import numpy as np
 np.random.shuffle(datal)
@@ -11,12 +12,15 @@ X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=0.33,
 
 from sklearn.svm import LinearSVC
 from sklearn.multiclass import OneVsRestClassifier
-y_pred=OneVsRestClassifier(LinearSVC(random_state=0)).fit(X_train, y_train).predict(X_test)
+from sklearn.multiclass import OneVsOneClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+
+#y_pred=OneVsRestClassifier(LinearSVC(random_state=0)).fit(X_train, y_train).predict(X_test)
+y_pred=OneVsOneClassifier(LinearSVC(random_state=0)).fit(X_train, y_train).predict(X_test)
 y_true=y_test
 
-from sklearn.metrics import accuracy_score
 accuracy_score(y_true, y_pred)
-from sklearn.metrics import quit()
 confusion_matrix(y_true, y_pred)
 
 #accuracy is 58% only.

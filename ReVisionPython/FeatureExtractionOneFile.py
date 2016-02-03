@@ -19,7 +19,7 @@ def extractPatch(img):
     return [img[x/125:x/125+PS,x%125:x%125+PS] for x in range((img.shape[0]-PS/2)*(img.shape[1]-PS/2))] 
 
 def extractPatch1(img):
-    return filter(lambda y: y.shape[0]*y.shape[1]==PS*PS, [img[x/64:x/64+PS,x%64:x%64+PS] for x in range(64*64) \
+    return filter(lambda y: y.shape[0]*y.shape[1]==PS*PS, [standardizePatch(img[x/64:x/64+PS,x%64:x%64+PS]) for x in range(64*64) \
     if ndimage.variance(img[x/64:x/64+PS,x%64:x%64+PS]) > VR*ndimage.variance(img)])
 
 def nearestOneHot(patch,cData):
@@ -41,6 +41,10 @@ def get2DMatrix(patchList):
 def patchResponseMap(quadrant,clusterData):
     return np.sum(np.dot(quadrant,clusterData.T),axis=0).reshape(1,200) 
 
+#TODO: unifinshed
+def patchResponseMapNormalized(quadrant,clusterData):
+    return np.sum(np.dot(quadrant,clusterData.T),axis=0).reshape(1,200) 
+
 def featureExtractOneFileUnit(loc,clusterData):
     size=(128,128)
     im=(resize(rgb2grey(imread(loc)),size)*255) #resize
@@ -55,7 +59,7 @@ def featureExtractOneFileUnit(loc,clusterData):
 
     return np.hstack((rpq1,rpq2,rpq3,rpq4))            
       
-'''
+
 def featureExtractOneFile(loc,clusterData,doRandom=True,randomPixno=1000):
     size=(128,128)
     im=(resize(rgb2grey(imread(loc)),size)*255) #resize
@@ -97,13 +101,13 @@ def featureExtractOneFile(loc,clusterData,doRandom=True,randomPixno=1000):
     
     #pprint(patchDict)      
     return np.hstack((patchDict[1],patchDict[2],patchDict[3],patchDict[4]))            
-'''
+
     
 def main():
-    imageLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/lines/10.1.1.182.1505-Figure-10.png"
+    imageLoc="../data-for-fig-classification/lines/10.1.1.182.1505-Figure-10.png"
     if len(sys.argv)==2:
         imageLoc=sys.argv[1]
-    patchClusterLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"  
+    patchClusterLoc="../data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"  
     
     #feat=featureExtractOneFile(imageLoc,patchClusterLoc)
     clusterData=pickle.load(open(patchClusterLoc)) 

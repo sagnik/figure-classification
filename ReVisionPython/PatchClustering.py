@@ -8,15 +8,15 @@ from scipy import stats
 
 def main():
     #default locations
-    dataLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/nonzcapatch-unclustered.nparray.pickle"
-    saveLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"
+    dataLoc="../data-for-fig-classification/nonzcapatch-unclustered.nparray.pickle"
+    saveLoc="../data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"
 
     if len(sys.argv)==3:
         dataLoc=sys.argv[1]
         saveLoc=sys.argv[2]
     elif len(sys.argv)==2:
         dataLoc=sys.argv[1]
-        saveLoc="/home/sagnik/codes/figure-classification/data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"
+        saveLoc="../data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"
 
     data=pickle.load(open(dataLoc))
 
