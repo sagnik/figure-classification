@@ -46,7 +46,7 @@ def main():
 
     for x in clusterDict.keys():
         print x,clusterDict[x].shape
-        clusterMeans=np.vstack((clusterMeans,np.sum(clusterDict[x],axis=0)))
+        clusterMeans=np.vstack((clusterMeans,np.sum(clusterDict[x],axis=0)/clusterDict[x].shape[0]))
     
     clusterMeans=clusterMeans[1:,:]
     print clusterMeans.shape
