@@ -1,6 +1,6 @@
 import pickle
 datal=pickle.load(open("imdatawithlabels.nparray.pickle"))
-datal=pickle.load(open("imdatawithlabels-allpixels-fast.nparray.pickle"))
+datal=pickle.load(open("imdatawithlabels-allpixels.nparray.pickle"))
 
 import numpy as np
 np.random.shuffle(datal)
@@ -8,9 +8,10 @@ data=datal[:,:-1]
 label=datal[:,-1]
 
 from sklearn.cross_validation import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=0.33, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=0.2, random_state=42)
 
 from sklearn.svm import LinearSVC
+from sklearn.svm import SVC
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.multiclass import OneVsOneClassifier
 from sklearn.metrics import accuracy_score

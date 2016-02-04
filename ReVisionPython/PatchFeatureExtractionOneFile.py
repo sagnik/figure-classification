@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 import pylab 
 import random
 from scipy import ndimage
+from sklearn import preprocessing
 
 PS=6 #patch size
 
@@ -58,10 +59,10 @@ def zca_whitening(inputs):
     see http://stackoverflow.com/questions/31528800/how-to-implement-zca-whitening-python . This code has np.diag(S),
     which should actually be np.diag(np.diag(s)). See the last example in 
     http://docs.scipy.org/doc/numpy-1.10.1/reference/generated/numpy.diag.html 
-    
-    ZCAMatrix = np.dot(np.dot(U, np.diag(1.0/np.sqrt(np.diag(S) + epsilon))), U.T) 
     '''
-    ZCAMatrix=1/(np.sqrt(sigma + epsilon)) #ZCA Whitening matrix, 
+    ZCAMatrix = np.dot(np.dot(U, np.diag(1.0/np.sqrt(np.diag(S) + epsilon))), U.T) 
+    
+    #ZCAMatrix=1/(np.sqrt(sigma + epsilon)) #ZCA Whitening matrix, 
     return np.dot(ZCAMatrix, inputs)   #Data whitening	    
 
 def flatten_matrix(matrix):
@@ -72,18 +73,30 @@ def flatten_matrix(matrix):
 def patchFeatExtractionOneImFile(loc):
     size=(128,128)
     im=(resize(rgb2grey(imread(loc)),size)*255) #resize
+    #show_img(im)
+    #im=im-np.mean(im)
+    #im=zca_whitening(im)
+    #show_img(im*255) 
     #random patch extraction
+    
     rp=randomPatchExtraction(im)
     #patch standardization
     rps=[list(flatten_matrix(standardizePatch(x))[0]) for x in rp]
     rpsl=[item for sublist in rps for item in sublist]
-    rpsa=np.reshape(rpsl,(len(rps),PS*PS))
+    if len(rpsl)!=3600 and len(rps)!=100:
+        print "features could not be extracted for",loc
+        return None
+    else:
+       return np.array(rpsl).reshape(1,3600)     
+    #rpsa=np.reshape(rpsl,(len(rps),PS*PS))
+    #print rpsa.shape
     #rpsz=zca_whitening(rpsa)
     return rpsa
+   
 
 def main():
     loc=sys.argv[1]
-    featExtractionOneImFile(loc)
+    patchFeatExtractionOneImFile(loc)
     
 
 if __name__ == "__main__":
