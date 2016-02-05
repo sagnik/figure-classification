@@ -23,7 +23,7 @@ def main():
     otherIms=otherIms[0:200]
     '''
     patchClusterLoc="../data-for-fig-classification/zcapatch-clustered.nparray.pickle"
-    classificationDataLoc="../data-for-fig-classification/imdatawithlabels-allpixels-fast.nparray.pickle" 
+    classificationDataLoc="../data-for-fig-classification/imdatawithlabels-allpixels.nparray.pickle" 
     clusterData=pickle.load(open(patchClusterLoc))
     
     #initialize

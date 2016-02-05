@@ -55,10 +55,6 @@ def patchResponseMap(quadrant,clusterData):
    
     
 
-#TODO: unifinshed
-def patchResponseMapNormalized(quadrant,clusterData):
-    return np.sum(np.dot(quadrant,clusterData.T),axis=0).reshape(1,200) 
-
 def normalize(a, axis=-1, order=2):
     l2 = np.atleast_1d(np.linalg.norm(a, order, axis))
     l2[l2==0] = 1
@@ -129,11 +125,13 @@ def main():
         imageLoc=sys.argv[1]
     patchClusterLoc="../data-for-fig-classification/zcapatch-clustered.nparray.pickle"  
     
-    #feat=featureExtractOneFile(imageLoc,patchClusterLoc)
     clusterData=pickle.load(open(patchClusterLoc)) 
     print "cluster data loaded"
+ 
     startTime = datetime.now()
-    feat=featureExtractOneFileUnit(imageLoc,clusterData)
+ 
+    feat=featureExtractOneFile(imageLoc,clusterData,doRandom=False)
+     #feat=featureExtractOneFileUnit(imageLoc,clusterData)
 
     print datetime.now() - startTime
     print feat.shape
