@@ -8,7 +8,7 @@ from sklearn.multiclass import OneVsRestClassifier
 
 def main():
     dataDir="../data-for-fig-classification/"
-    dataPickleLoc=dataDir+"imdatawithlabels-randompixels-fast.nparray.pickle"
+    dataPickleLoc=dataDir+"imdatawithlabels-randompixels.nparray.pickle"
     datal=pickle.load(open(dataPickleLoc))
  
     accuracies=[]

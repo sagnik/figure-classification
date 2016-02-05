@@ -39,11 +39,30 @@ def get2DMatrix(patchList):
     return a[1:,:]
 
 def patchResponseMap(quadrant,clusterData):
-    return np.sum(np.dot(quadrant,clusterData.T),axis=0).reshape(1,200) 
+    clusterData=normalize(clusterData,1)
+    quadrant=normalize(quadrant,1)
+    maxCosines=list(np.argmax(np.dot(quadrant,clusterData.T),1))
+    #print quadrant.shape,clusterData.T.shape,len(maxCosines)
+    a=np.zeros(200).reshape((1,200))
+    for index in maxCosines:
+        b=[0]*200
+        b[index]=1
+        a=np.vstack((a,np.array(b).reshape((1,200))))
+    
+    #print a.shape
+    return np.sum(a[1:,:],axis=0) 
+    #return np.sum(np.dot(quadrant,clusterData.T),axis=0).reshape(1,200)
+   
+    
 
 #TODO: unifinshed
 def patchResponseMapNormalized(quadrant,clusterData):
     return np.sum(np.dot(quadrant,clusterData.T),axis=0).reshape(1,200) 
+
+def normalize(a, axis=-1, order=2):
+    l2 = np.atleast_1d(np.linalg.norm(a, order, axis))
+    l2[l2==0] = 1
+    return a / np.expand_dims(l2, axis)
 
 def featureExtractOneFileUnit(loc,clusterData):
     size=(128,128)
@@ -108,7 +127,7 @@ def main():
     imageLoc="../data-for-fig-classification/lines/10.1.1.182.1505-Figure-10.png"
     if len(sys.argv)==2:
         imageLoc=sys.argv[1]
-    patchClusterLoc="../data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"  
+    patchClusterLoc="../data-for-fig-classification/zcapatch-clustered.nparray.pickle"  
     
     #feat=featureExtractOneFile(imageLoc,patchClusterLoc)
     clusterData=pickle.load(open(patchClusterLoc)) 

@@ -13,6 +13,7 @@ def main():
     otherIms=[baseDir+"others/"+x for x in os.listdir(baseDir+"others") if x.endswith(".png")]
     
     #for small experiments, should be commented out for the final experiments
+    '''
     random.shuffle(lineIms)
     random.shuffle(barIms)
     random.shuffle(otherIms)
@@ -20,9 +21,9 @@ def main():
     lineIms=lineIms[0:200]
     barIms=barIms[0:200]
     otherIms=otherIms[0:200]
- 
+    '''
     patchClusterLoc="../data-for-fig-classification/zcapatch-clustered.nparray.pickle"
-    classificationDataLoc="../data-for-fig-classification/imdatawithlabels-randompixels.nparray.pickle" 
+    classificationDataLoc="../data-for-fig-classification/imdatawithlabels-allpixels-fast.nparray.pickle" 
     clusterData=pickle.load(open(patchClusterLoc))
     
     #initialize
@@ -30,8 +31,8 @@ def main():
 
     for i,im in enumerate(lineIms+barIms+otherIms):
         print "processing",i+1,"of",len(lineIms)+len(barIms)+len(otherIms),im
-        #feat=featureExtractOneFileUnit(im,clusterData)
-        feat=featureExtractOneFile(im,clusterData,doRandom=True,randomPixno=2000)
+        feat=featureExtractOneFileUnit(im,clusterData)
+        #feat=featureExtractOneFile(im,clusterData,doRandom=True,randomPixno=2000)
         a=np.vstack((a,feat.reshape(1,800)))   
     
     labels=np.array([0]*len(lineIms)+[1]*len(barIms)+[2]*len(otherIms)).reshape((len(lineIms)+len(barIms)+len(otherIms),1))
