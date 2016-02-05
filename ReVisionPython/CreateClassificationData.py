@@ -33,8 +33,8 @@ def main():
 
     for i,im in enumerate(lineIms+barIms+otherIms):
         print "processing",i+1,"of",len(lineIms)+len(barIms)+len(otherIms),im
-        feat=featureExtractOneFileUnit(im,clusterData)
-        #feat=featureExtractOneFile(im,clusterData,doRandom=True,randomPixno=2000)
+        #feat=featureExtractOneFileUnit(im,clusterData)
+        feat=featureExtractOneFile(im,clusterData,doRandom=False)
         a=np.vstack((a,feat.reshape(1,800)))   
     
     print "total time taken: ",datetime.now()-startTime
