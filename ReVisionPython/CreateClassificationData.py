@@ -1,6 +1,7 @@
 import sys,os
 import numpy as np
 from FeatureExtractionOneFile import featureExtractOneFileUnit
+from FeatureExtractionOneFile import featureExtractOneFile
 import pickle
 import random
 
@@ -20,8 +21,8 @@ def main():
     barIms=barIms[0:200]
     otherIms=otherIms[0:200]
  
-    patchClusterLoc="../data-for-fig-classification/nonzcapatch-clustered.nparray.pickle"
-    classificationDataLoc="../data-for-fig-classification/imdatawithlabels-allpixels-fast.nparray.pickle" 
+    patchClusterLoc="../data-for-fig-classification/zcapatch-clustered.nparray.pickle"
+    classificationDataLoc="../data-for-fig-classification/imdatawithlabels-randompixels.nparray.pickle" 
     clusterData=pickle.load(open(patchClusterLoc))
     
     #initialize
@@ -29,7 +30,8 @@ def main():
 
     for i,im in enumerate(lineIms+barIms+otherIms):
         print "processing",i+1,"of",len(lineIms)+len(barIms)+len(otherIms),im
-        feat=featureExtractOneFileUnit(im,clusterData)
+        #feat=featureExtractOneFileUnit(im,clusterData)
+        feat=featureExtractOneFile(im,clusterData,doRandom=True,randomPixno=2000)
         a=np.vstack((a,feat.reshape(1,800)))   
     
     labels=np.array([0]*len(lineIms)+[1]*len(barIms)+[2]*len(otherIms)).reshape((len(lineIms)+len(barIms)+len(otherIms),1))

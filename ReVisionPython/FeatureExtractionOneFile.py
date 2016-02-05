@@ -94,6 +94,7 @@ def featureExtractOneFile(loc,clusterData,doRandom=True,randomPixno=1000):
         else:
             quadrant=4
         if patch.shape[0]*patch.shape[1]==36:
+            patch=standardizePatch(patch)
             if quadrant not in patchDict:
                 patchDict[quadrant]=nearestOneHot(patch,clusterData)
             else:
