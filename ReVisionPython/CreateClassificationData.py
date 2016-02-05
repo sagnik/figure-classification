@@ -4,6 +4,7 @@ from FeatureExtractionOneFile import featureExtractOneFileUnit
 from FeatureExtractionOneFile import featureExtractOneFile
 import pickle
 import random
+from datetime import datetime
 
 def main():
     baseDir="../data-for-fig-classification/"
@@ -11,7 +12,8 @@ def main():
     lineIms=[baseDir+"lines/"+x for x in os.listdir(baseDir+"lines") if x.endswith(".png")]
     barIms=[baseDir+"bars/"+x for x in os.listdir(baseDir+"bars") if x.endswith(".png")]
     otherIms=[baseDir+"others/"+x for x in os.listdir(baseDir+"others") if x.endswith(".png")]
-    
+
+    startTime=datetime.now()    
     #for small experiments, should be commented out for the final experiments
     '''
     random.shuffle(lineIms)
@@ -35,6 +37,8 @@ def main():
         #feat=featureExtractOneFile(im,clusterData,doRandom=True,randomPixno=2000)
         a=np.vstack((a,feat.reshape(1,800)))   
     
+    print "total time taken: ",datetime.now()-startTime
+ 
     labels=np.array([0]*len(lineIms)+[1]*len(barIms)+[2]*len(otherIms)).reshape((len(lineIms)+len(barIms)+len(otherIms),1))
     print a.shape,labels.shape
     data=np.hstack((a[1:,:],labels))
