@@ -15,7 +15,7 @@ def main():
 
     startTime=datetime.now()    
     #for small experiments, should be commented out for the final experiments
-    '''
+    
     random.shuffle(lineIms)
     random.shuffle(barIms)
     random.shuffle(otherIms)
@@ -23,9 +23,9 @@ def main():
     lineIms=lineIms[0:200]
     barIms=barIms[0:200]
     otherIms=otherIms[0:200]
-    '''
+    
     patchClusterLoc="../data-for-fig-classification/zcapatch-clustered.nparray.pickle"
-    classificationDataLoc="../data-for-fig-classification/imdatawithlabels-allpixels.nparray.pickle" 
+    classificationDataLoc="../data-for-fig-classification/imdatawithlabels-densesampling-fast.nparray.pickle" 
     clusterData=pickle.load(open(patchClusterLoc))
     
     #initialize
@@ -33,8 +33,8 @@ def main():
 
     for i,im in enumerate(lineIms+barIms+otherIms):
         print "processing",i+1,"of",len(lineIms)+len(barIms)+len(otherIms),im
-        #feat=featureExtractOneFileUnit(im,clusterData)
-        feat=featureExtractOneFile(im,clusterData,doRandom=False)
+        feat=featureExtractOneFileUnit(im,clusterData)
+        #feat=featureExtractOneFile(im,clusterData,doRandom=True)
         a=np.vstack((a,feat.reshape(1,800)))   
     
     print "total time taken: ",datetime.now()-startTime

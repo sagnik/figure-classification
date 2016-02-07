@@ -8,7 +8,7 @@ from sklearn.multiclass import OneVsRestClassifier
 
 def main():
     dataDir="../data-for-fig-classification/"
-    dataPickleLoc=dataDir+"imdatawithlabels-randompixels.nparray.pickle"
+    dataPickleLoc=dataDir+"imdatawithlabels-random1000pixels.nparray.pickle"
     datal=pickle.load(open(dataPickleLoc))
  
     accuracies=[]
@@ -28,8 +28,8 @@ def main():
         confusionmatrices.append(c)
     
     print "average accuracy",np.mean(np.array(accuracies))
-    pickle.dump(accuracies,open(dataDir+"accuracies.pickle","wb"))
-    pickle.dump(confusionmatrices, open(dataDir+"confusion-matrices.pickle","wb"))    
+    pickle.dump(accuracies,open(dataDir+"random1000sampling-accuracies.pickle","wb"))
+    pickle.dump(confusionmatrices, open(dataDir+"random1000sampling-confusion-matrices.pickle","wb"))    
 
 
 if __name__=="__main__":
