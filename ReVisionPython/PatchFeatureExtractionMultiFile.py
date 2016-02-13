@@ -47,13 +47,13 @@ def main():
     
     print "feature extraction done"     
     preZca=a[1:,:]
-    #postZca=zca_whitening(preZca-np.mean(preZca))
-    postZca=preZca    
+    postZca=zca_whitening(preZca-np.mean(preZca))
+    #postZca=preZca    
     
     print "zca whitening done"
       
     data=np.zeros(36).reshape(1,36)
-    for i in preZca[:,]:
+    for i in postZca[:,]:
         data=np.vstack((data,i.reshape(100,36)))
     
     print "data reshaping done"
