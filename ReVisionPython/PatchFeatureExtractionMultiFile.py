@@ -21,7 +21,7 @@ def main():
     patchImOtherDir="../data-for-fig-classification/patchimages/others/"
 
     pickleLoc="../data-for-fig-classification/nonzcapatch-unclustered-labeled.nparray.pickle"
-    
+    #our classifications are done zcapatch-unclustered-labeled.nparray.pickle 
     '''
     if len(sys.argv)==3:
         patchImDir=sys.argv[1]
@@ -47,8 +47,8 @@ def main():
     
     print "feature extraction done"     
     preZca=a[1:,:]
-    postZca=zca_whitening(preZca-np.mean(preZca))
-    #postZca=preZca    
+    #postZca=zca_whitening(preZca-np.mean(preZca))
+    postZca=preZca    
     
     print "zca whitening done"
       
