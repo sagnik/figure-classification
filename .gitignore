@@ -2,3 +2,5 @@
 *.pickle
 *.pyc
 *.swp
+!.gitignore
+!results/
