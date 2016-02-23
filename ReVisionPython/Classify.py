@@ -14,11 +14,11 @@ def main():
     accuracies=[]
     confusionmatrices=[]
     
-    for i in range(10):
+    for i in range(5):
         np.random.shuffle(datal)
         data=datal[:,:-1]
         label=datal[:,-1]
-        X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=0.33, random_state=i)
+        X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=0.2, random_state=i)
         print "starting classification, iteration: ",i+1
         y_pred=OneVsRestClassifier(LinearSVC(random_state=0)).fit(X_train, y_train).predict(X_test)
         a=accuracy_score(y_test, y_pred)
