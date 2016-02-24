@@ -1,0 +1,36 @@
+cfs/densesampling-1000pixels-rf-600-confusion-matrices.pickle
+precisions [81.0, 94.0, 76.0]
+recalls [86.0, 87.0, 76.0]
+F1 scores [83.0, 90.0, 75.0]
+cfs/densesampling-fast-1000pixels-rf-600-confusion-matrices.pickle
+precisions [83.0, 89.0, 82.0]
+recalls [86.0, 89.0, 79.0]
+F1 scores [84.0, 89.0, 80.0]
+cfs/densesampling-fast-lksvm-wholedata-confusion-matrices.pickle
+precisions [85.0, 91.0, 80.0]
+recalls [86.0, 87.0, 83.0]
+F1 scores [86.0, 89.0, 81.0]
+cfs/densesampling-fast-rbf-svm-wholedata-confusion-matrices.pickle
+precisions [46.0, 100.0, nan]
+recalls [81.0, 11.0, 20.0]
+F1 scores [41.0, 19.0, nan]
+cfs/densesampling-fast-rf-wholedata-confusion-matrices.pickle
+precisions [85.0, 91.0, 84.0]
+recalls [88.0, 93.0, 80.0]
+F1 scores [86.0, 92.0, 82.0]
+cfs/randomsampling-1000pixels-lksvm-wholedata-confusion-matrices.pickle
+precisions [75.0, 84.0, 73.0]
+recalls [85.0, 79.0, 69.0]
+F1 scores [80.0, 81.0, 70.0]
+cfs/randomsampling-1000pixels-rbf-svm-wholedata-confusion-matrices.pickle
+precisions [69.0, 57.0, 63.0]
+recalls [58.0, 85.0, 43.0]
+F1 scores [62.0, 68.0, 51.0]
+cfs/randomsampling-1000pixels-rf-600-confusion-matrices.pickle
+precisions [75.0, 79.0, 79.0]
+recalls [82.0, 90.0, 63.0]
+F1 scores [78.0, 84.0, 69.0]
+cfs/randomsampling-1000pixels-rf-wholedata-confusion-matrices.pickle
+precisions [77.0, 89.0, 85.0]
+recalls [88.0, 89.0, 73.0]
+F1 scores [82.0, 89.0, 78.0]
